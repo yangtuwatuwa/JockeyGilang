@@ -6,36 +6,6 @@ require_once __DIR__ . '/../includes/auth.php';
 require_role('admin');
 require_once __DIR__ . '/../config/database.php';
 
-function stock_quantity_to_milli(string $value): int|false
-{
-    if (preg_match('/^([0-9]+)(?:\.([0-9]{1,3}))?$/D', $value, $matches) !== 1) {
-        return false;
-    }
-
-    $whole = ltrim($matches[1], '0');
-    $whole = $whole === '' ? '0' : $whole;
-    if (strlen($whole) > 9 || (strlen($whole) === 9 && strcmp($whole, '999999999') > 0)) {
-        return false;
-    }
-
-    $fraction = str_pad($matches[2] ?? '', 3, '0');
-    return ((int) $whole * 1000) + (int) $fraction;
-}
-
-function stock_milli_to_decimal(int $milli): string
-{
-    $sign = $milli < 0 ? '-' : '';
-    $absoluteMilli = abs($milli);
-
-    return $sign . intdiv($absoluteMilli, 1000) . '.'
-        . str_pad((string) ($absoluteMilli % 1000), 3, '0', STR_PAD_LEFT);
-}
-
-function stock_unit_requires_whole_quantity(string $unit): bool
-{
-    return in_array($unit, ['pcs', 'pack', 'box', 'botol', 'ikat'], true);
-}
-
 function stock_reason_is_valid(string $reason): bool
 {
     return trim($reason) !== ''

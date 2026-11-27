@@ -13,9 +13,14 @@ $currentPage = basename($_SERVER['SCRIPT_NAME'] ?? '');
         <div class="nav-caption">MENU</div>
         <nav aria-label="Navigasi utama">
             <a class="nav-link <?= $currentPage === 'dashboard.php' ? 'active' : '' ?>" href="<?= escape_html(app_url(role_home_path($sidebarUser['role']))) ?>">Dashboard</a>
+            <?php if ($sidebarUser['role'] === 'cashier'): ?>
+                <a class="nav-link <?= $currentPage === 'sales.php' ? 'active' : '' ?>" href="<?= escape_html(app_url('cashier/sales.php')) ?>">Penjualan</a>
+            <?php endif; ?>
             <?php if ($sidebarUser['role'] === 'admin'): ?>
                 <a class="nav-link <?= $currentPage === 'categories.php' ? 'active' : '' ?>" href="<?= escape_html(app_url('admin/categories.php')) ?>">Kategori</a>
                 <a class="nav-link <?= $currentPage === 'stock.php' ? 'active' : '' ?>" href="<?= escape_html(app_url('admin/stock.php')) ?>">Stok</a>
+                <a class="nav-link <?= $currentPage === 'transactions.php' ? 'active' : '' ?>" href="<?= escape_html(app_url('admin/transactions.php')) ?>">Transaksi</a>
+                <a class="nav-link <?= $currentPage === 'reports.php' ? 'active' : '' ?>" href="<?= escape_html(app_url('admin/reports.php')) ?>">Laporan</a>
             <?php endif; ?>
         </nav>
         <div class="sidebar-bottom">

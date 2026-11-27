@@ -39,17 +39,6 @@ function product_quantity_has_fraction(string $quantity): bool
     return trim($fraction, '0') !== '';
 }
 
-function product_discounted_price(string $sellingPrice, string $discountPercent): string
-{
-    [$wholePrice, $fractionPrice] = array_pad(explode('.', $sellingPrice, 2), 2, '');
-    [$wholeDiscount, $fractionDiscount] = array_pad(explode('.', $discountPercent, 2), 2, '');
-    $priceCents = ((int) $wholePrice * 100) + (int) str_pad($fractionPrice, 2, '0');
-    $discountBasisPoints = ((int) $wholeDiscount * 100) + (int) str_pad($fractionDiscount, 2, '0');
-    $discountedCents = intdiv(($priceCents * (10000 - $discountBasisPoints)) + 5000, 10000);
-
-    return intdiv($discountedCents, 100) . '.' . str_pad((string) ($discountedCents % 100), 2, '0', STR_PAD_LEFT);
-}
-
 function product_form_values(array $source): array
 {
     $fieldNames = [
